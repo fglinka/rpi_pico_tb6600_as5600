@@ -7,9 +7,25 @@ set(PICO_BOARD pico)
 # note: this must happen before project()
 include(pico-sdk/pico_sdk_init.cmake)
 
-project(my_project)
+# We don't have C++ code but not enabling CXX will get you an
+# Missing variable CMAKE_CXX_COMPILE_OBJECT error
+project(my_project C CXX)
 
 # initialize the Raspberry Pi Pico SDK
 pico_sdk_init()
 
-# rest of your project
+add_executable(tb6600_controller
+    src/main.c
+)
+
+set_target_properties(tb6600_controller PROPERTIES
+    EXPORT_COMPILE_COMMANDS ON
+)
+
+# Enable usb output, disable uart output
+pico_enable_stdio_usb(tb6600_controller 1)
+pico_enable_stdio_uart(tb6600_controller 0)
+
+pico_add_extra_outputs(tb6600_controller)
+
+target_link_libraries(tb6600_controller pico_stdlib)
