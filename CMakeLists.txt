@@ -15,7 +15,12 @@ project(my_project C CXX)
 pico_sdk_init()
 
 add_executable(tb6600_controller
+    # Headers
+    src/config.h
+    src/io_utils.h
+    # Sources
     src/main.c
+    src/io_utils.c
 )
 
 set_target_properties(tb6600_controller PROPERTIES
@@ -28,4 +33,4 @@ pico_enable_stdio_uart(tb6600_controller 0)
 
 pico_add_extra_outputs(tb6600_controller)
 
-target_link_libraries(tb6600_controller pico_stdlib)
+target_link_libraries(tb6600_controller pico_stdlib hardware_pwm)
