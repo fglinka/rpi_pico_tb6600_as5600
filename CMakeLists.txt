@@ -27,6 +27,9 @@ set_target_properties(tb6600_controller PROPERTIES
     EXPORT_COMPILE_COMMANDS ON
 )
 
+# Use C17
+target_compile_features(tb6600_controller PUBLIC c_std_17)
+
 # Enable usb output, disable uart output
 pico_enable_stdio_usb(tb6600_controller 1)
 pico_enable_stdio_uart(tb6600_controller 0)
