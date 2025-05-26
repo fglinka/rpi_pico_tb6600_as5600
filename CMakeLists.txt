@@ -18,6 +18,7 @@ add_executable(tb6600_controller
     # Headers
     src/config.h
     src/io_utils.h
+    src/protocol.h
     # Sources
     src/main.c
     src/io_utils.c
