@@ -22,6 +22,12 @@ struct StepperConfig {
     const unsigned int step_subdivisions;
     // (Positive) velocity limit in Degrees Q16.16. Both for forward and reverse.
     const uint32_t max_velocity;
+    // The i2c instance used. Either 0 or 1, must be unique per sensor.
+    const uint8_t i2c_instance;
+    // The GPIO pin used for the AS5600 I²C data signal
+    const unsigned int pin_sensor_sda;
+    // The GPIO pin used for the AS5600 I²C clock signal
+    const unsigned int pin_sensor_scl;
 };
 
 const struct StepperConfig STEPPER_CONFIGS[] = {

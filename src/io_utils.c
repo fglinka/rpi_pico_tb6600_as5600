@@ -4,6 +4,7 @@
 #include <pico/stdlib.h>
 #include <hardware/pwm.h>
 #include <hardware/gpio.h>
+#include <hardware/i2c.h>
 #include <stdbool.h>
 
 /**
@@ -58,14 +59,25 @@ void setupGeneralPorts(const struct StepperConfig *config) {
     };
 }
 
+const unsigned int AS5600_BAUDRATE = 100000; ///< I²C Baudrate in Hz used to communicate with AS5600.
+
 /**
  * Setup GPIO ports used for I2c
  */
 void setupI2cPorts(const struct StepperConfig *config) {
+    // Use correct i2c instance
+    struct i2c_inst *inst = config->i2c_instance == 0 ? i2c0 : i2c1;
+    // Initialize i2c instance
+    i2c_init(inst, AS5600_BAUDRATE);
+    // Set pin functions
+    gpio_set_function(config->pin_sensor_scl, GPIO_FUNC_I2C);
+    gpio_set_function(config->pin_sensor_sda, GPIO_FUNC_I2C);
+    // Pull pins up
+    gpio_pull_up(config->pin_sensor_scl);
+    gpio_pull_up(config->pin_sensor_sda);
 }
 
 void setupPorts() {
-
     for (size_t stepper_id = 0; stepper_id < NUM_STEPPERS; ++stepper_id) {
         // Get pointer to config
         const struct StepperConfig *config = &STEPPER_CONFIGS[stepper_id];
