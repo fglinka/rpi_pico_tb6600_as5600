@@ -17,11 +17,18 @@ pico_sdk_init()
 add_executable(tb6600_controller
     # Headers
     src/config.h
-    src/io_utils.h
     src/protocol.h
+    src/io_utils.h
+    src/usb_utils.h
     # Sources
     src/main.c
     src/io_utils.c
+    src/usb_utils.c
+)
+
+# Add src to include path so tusb_config.h is found among other reasons.
+target_include_directories(tb6600_controller PUBLIC
+    ${CMAKE_CURRENT_LIST_DIR}/src
 )
 
 set_target_properties(tb6600_controller PROPERTIES
@@ -31,10 +38,12 @@ set_target_properties(tb6600_controller PROPERTIES
 # Use C17
 target_compile_features(tb6600_controller PUBLIC c_std_17)
 
-# Enable usb output, disable uart output
-pico_enable_stdio_usb(tb6600_controller 1)
-pico_enable_stdio_uart(tb6600_controller 0)
+# Enable uart output for debugging
+pico_enable_stdio_usb(tb6600_controller 0)
+pico_enable_stdio_uart(tb6600_controller 1)
 
 pico_add_extra_outputs(tb6600_controller)
 
-target_link_libraries(tb6600_controller pico_stdlib hardware_pwm hardware_gpio hardware_i2c)
+target_link_libraries(tb6600_controller PUBLIC
+    pico_stdlib hardware_pwm hardware_gpio hardware_i2c tinyusb_device
+)
