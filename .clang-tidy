@@ -1,5 +1,5 @@
 ---
-Checks:          'clang-diagnostic-*,clang-analyzer-*'
+Checks:          'clang-diagnostic-*,clang-analyzer-*,bugprone-*,performance-*,portability-*,readability-*'
 WarningsAsErrors: ''
 HeaderFileExtensions:
   - ''
@@ -15,7 +15,6 @@ ImplementationFileExtensions:
 HeaderFilterRegex: ''
 ExcludeHeaderFilterRegex: ''
 FormatStyle:     none
-User:            xeef
 CheckOptions:
   cert-dcl16-c.NewSuffixes: 'L;LL;LU;LLU'
   cert-err33-c.AllowCastToVoid: 'true'
