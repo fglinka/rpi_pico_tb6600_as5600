@@ -45,5 +45,5 @@ pico_enable_stdio_uart(tb6600_controller 1)
 pico_add_extra_outputs(tb6600_controller)
 
 target_link_libraries(tb6600_controller PUBLIC
-    pico_stdlib hardware_pwm hardware_gpio hardware_i2c tinyusb_device
+    pico_stdlib hardware_pwm hardware_gpio hardware_i2c hardware_timer tinyusb_device
 )

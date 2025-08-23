@@ -35,3 +35,5 @@ const struct StepperConfig STEPPER_CONFIGS[] = {
 };
 
 const unsigned int NUM_STEPPERS = 1;
+
+const unsigned int CONTROL_LOOP_HZ = 100; ///< The frequency of the main control loop in Hz.
