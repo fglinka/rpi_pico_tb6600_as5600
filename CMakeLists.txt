@@ -21,6 +21,7 @@ add_executable(tb6600_controller
     src/io_utils.h
     src/usb_utils.h
     # Sources
+    src/config.c
     src/main.c
     src/io_utils.c
     src/usb_utils.c

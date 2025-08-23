@@ -30,10 +30,11 @@ struct StepperConfig {
     const unsigned int pin_sensor_scl;
 };
 
-const struct StepperConfig STEPPER_CONFIGS[] = {
-    {COMMON_CATHODE, 0, 1, 2, (uint32_t)(1.8 * (1 << 16)), 1, (uint32_t)(20 * (1 << 16))}
-};
+#define NUM_STEPPERS 1
+#define CONTROL_LOOP_HZ 100 ///< The frequency of the main control loop in Hz.
 
-const unsigned int NUM_STEPPERS = 1;
-
-const unsigned int CONTROL_LOOP_HZ = 100; ///< The frequency of the main control loop in Hz.
+/**
+ * Edit this config in src/config.c. We can't define it in the header, because that would
+ * cause multiple definition errors.
+ */
+extern const struct StepperConfig STEPPER_CONFIGS[];
