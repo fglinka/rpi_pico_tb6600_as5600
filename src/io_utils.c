@@ -77,7 +77,7 @@ void setupI2cPorts(const struct StepperConfig *config) {
     gpio_pull_up(config->pin_sensor_sda);
 }
 
-void setupPorts() {
+void setupGPIO() {
     for (size_t stepper_id = 0; stepper_id < NUM_STEPPERS; ++stepper_id) {
         // Get pointer to config
         const struct StepperConfig *config = &STEPPER_CONFIGS[stepper_id];
