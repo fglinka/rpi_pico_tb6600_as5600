@@ -1,7 +1,7 @@
 #include "usb_utils.h"
 #include <tusb.h>
 
-int setupUSB() {
+bool setupUSB() {
     tusb_rhport_init_t dev_init = {
         .role = TUSB_ROLE_DEVICE,
         .speed = TUSB_SPEED_AUTO
@@ -10,6 +10,6 @@ int setupUSB() {
     tusb_init(0, &dev_init);
 }
 
-void taskUSB() {
+bool taskUSB() {
     tusb_int_handler(0, true);
 }
