@@ -10,6 +10,6 @@ bool setupUSB() {
     tusb_init(0, &dev_init);
 }
 
-bool taskUSB() {
+bool taskUSB(control_states_t *control_states) {
     tusb_int_handler(0, true);
 }

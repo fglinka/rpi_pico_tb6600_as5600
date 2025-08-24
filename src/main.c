@@ -4,6 +4,7 @@
 #include <hardware/timer.h>
 #include <stdio.h>
 #include "config.h"
+#include "control.h"
 
 bool setup() {
     // Initialize stdio
@@ -25,7 +26,21 @@ bool setup() {
  */
 const unsigned int CONTROL_LOOP_INTERVAL_US = 1000000 / CONTROL_LOOP_HZ;
 
-bool loop_process() {
+/**
+ * Called to process one iteration of the control loop.
+ */
+void loop_process(control_states_t *control_states) {
+    // Receive control messages via USB
+    taskUSB(control_states);
+
+    // Read sensor inputs
+    task_read_sensors(control_states);
+
+    // Calculate actuator outputs
+    task_compute_commands(control_states);
+
+    // Write actuator outputs
+    task_write_outputs(control_states);
 }
 
 int main(int argc, char **argv) {
@@ -33,9 +48,11 @@ int main(int argc, char **argv) {
     // Setup ports etc.
     err = setup();
     if (err != 0) {
-        printf("Setup failed. Error %i", err);
+        printf("Setup failed. Error %i\n", err);
         return 1;
     }
+    // Setup struct holding persistent control information
+    control_states_t *control_states = control_states_create();
 
     // Main loop
     while (true) {
@@ -43,10 +60,18 @@ int main(int argc, char **argv) {
         // processing duration later.
         const uint64_t loop_begin_us = time_us_64();
         // Process the control loop
-        loop_process();
+        loop_process(control_states);
         // Get duration that control loop took
         const uint64_t loop_duration = time_us_64() - loop_begin_us;
         // Sleep for CONTROL_LOOP_INTERVAL_US excl. loop process duration
-        sleep_us(CONTROL_LOOP_INTERVAL_US - loop_duration);
+        if (loop_duration < CONTROL_LOOP_INTERVAL_US) {
+            sleep_us(CONTROL_LOOP_INTERVAL_US - loop_duration);
+        } else {
+            printf("Warning. Loop processing too slow, took %llu us, should have taken max %zu us\n",
+                   loop_duration, CONTROL_LOOP_INTERVAL_US);
+        }
     }
+
+    // Teardown control_states
+    control_states_destroy(control_states);
 }

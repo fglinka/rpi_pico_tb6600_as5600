@@ -17,14 +17,18 @@ pico_sdk_init()
 add_executable(tb6600_controller
     # Headers
     src/config.h
+    src/control_state.h
     src/protocol.h
     src/io_utils.h
     src/usb_utils.h
+    src/control.h
     # Sources
     src/config.c
+    src/control_state.c
     src/main.c
     src/io_utils.c
     src/usb_utils.c
+    src/control.c
 )
 
 # Add src to include path so tusb_config.h is found among other reasons.

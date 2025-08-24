@@ -89,3 +89,11 @@ void setupGPIO() {
         setupI2cPorts(config);
     }
 }
+
+void task_read_sensors(control_states_t *control_states) {
+    // TODO stub
+}
+
+void task_write_outputs(control_states_t *control_states) {
+    // TODO stub
+}
