@@ -55,10 +55,10 @@ struct __attribute__((__packed__)) HostPacketDisableStepper {
 struct __attribute__((__packed__)) HostPacketSetPositionGoal {
     uint8_t packet_id; ///< HP_ID_SET_POSITION_GOAL
     uint8_t stepper_id; ///< The ID of the stepper to set the position goal for.
-    uint16_t position_goal; ///< The position goal in degrees as fixed point signed Q16.16.
-                            ///< (15 bits before, 16 after decimal point). Beware,
-                            ///< has to be little endian.
-    uint8_t pad[4]; ///< Padding
+    int32_t position_goal; ///< The position goal in degrees as fixed point signed Q16.16.
+                           ///< (15 bits before, 16 after decimal point). Beware,
+                           ///< has to be little endian.
+    uint8_t pad[2]; ///< Padding
 };
 
 const uint8_t DP_ID_ACKNOWLEDGEMENT = 0; ///< Used for {@ref DevicePacketAcknowledgement}.
@@ -90,9 +90,9 @@ struct __attribute__((__packed__)) DevicePacketAcknowledgement {
 struct __attribute__((__packed__)) DevicePacketCurrentPosition {
     uint8_t response_id; ///< DP_ID_ACKNOWLEDGEMENT;
     uint8_t stepper_id; ///< The ID of the stepper the position data is reported for.
-    uint16_t position_goal; ///< The current position in degrees as fixed point signed Q16.16.
-                            ///< (15 bits before, 16 after decimal point). Beware,
-                            ///< has to be little endian.
+    int32_t position_goal; ///< The current position in degrees as fixed point signed Q16.16.
+                           ///< (15 bits before, 16 after decimal point). Beware,
+                           ///< has to be little endian.
 
-    uint8_t pad[4]; ///< Pad to 8 bytes.
+    uint8_t pad[2]; ///< Pad to 8 bytes.
 };
